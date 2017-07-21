@@ -7,6 +7,17 @@ Apache Spark is a great tool for working with a large amount of data like teraby
                     option("header", "true").
                 save("myfile.csv")
  
+It also support reading from csv file with similar API
+   
+   
+              val df = sqlContext.read.format("com.databricks.spark.csv").option("header", "true").option("inferSchema", 
+              "true").load("file.csv")
+              
+              
+You could also write some custom code to create the output string using mkString, but it won't be safe if you encounter special characters and won't be able to handle quote, etc..
+
+              df.map(x => x.mkString("|")).saveAsTextFile("file.csv") 
+   
 This code creates a directory myfile.csv with several CSV files and metadata files. If you need single CSV file, you have to implicitly create one single partition.
 
 
